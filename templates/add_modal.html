@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block content %}
+<h4>Tambah Modal</h4>
+<form method="POST" class="mb-3">
+  <label>Nominal Modal ($)</label>
+  <input type="number" name="amount" class="form-control mb-2" step="0.01" required>
+  <button type="submit" class="btn btn-success">Tambah</button>
+  <a href="/" class="btn btn-secondary">Batal</a>
+</form>
+{% endblock %}
