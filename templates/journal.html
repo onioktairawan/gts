@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4>Jurnal Trading ({{ session['username'] }})</h4>
+  <div>
+    <a href="/add_modal" class="btn btn-outline-info btn-sm me-2">Tambah Modal</a>
+    <a href="/export" class="btn btn-success btn-sm">Export CSV</a>
+    <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
+  </div>
+</div>
+
+<form method="POST" class="row g-3 mb-4">
+  <div class="col-md-3">
+    <label>Equity Awal</label>
+    <input type="number" name="equity" step="0.01" class="form-control" required>
+  </div>
+  <div class="col-md-2">
+    <label>Lot</label>
+    <input type="number" name="lot" step="0.01" class="form-control" required>
+  </div>
+  <div class="col-md-2">
+    <label>Open Price</label>
+    <input type="number" name="open_price" step="0.001" class="form-control" required>
+  </div>
+  <div class="col-md-2">
+    <label>SL</label>
+    <input type="number" name="sl" step="0.001" class="form-control" required>
+  </div>
+  <div class="col-md-2">
+    <label>TP</label>
+    <input type="number" name="tp" step="0.001" class="form-control" required>
+  </div>
+  <div class="col-md-1">
+    <label>Hasil</label>
+    <select name="result" class="form-control">
+      <option>TP</option>
+      <option>SL</option>
+    </select>
+  </div>
+  <div class="col-md-2">
+    <label>Keterangan</label>
+    <select name="note" class="form-control">
+      <option>Buy</option>
+      <option>Sell</option>
+    </select>
+  </div>
+  <div class="col-md-12 text-end">
+    <button class="btn btn-primary">Simpan</button>
+  </div>
+</form>
+
+<h5>Statistik</h5>
+<ul>
+  <li>Total Modal: <strong>${{ '%.2f'|format(modal) }}</strong></li>
+  <li>Total Trade: <strong>{{ stats.total }}</strong></li>
+  <li>TP: <strong>{{ stats.tp }}</strong></li>
+  <li>SL: <strong>{{ stats.sl }}</strong></li>
+  <li>Winrate: <strong>{{ stats.winrate }}%</strong></li>
+  <li>PnL/Growth: <strong>${{ '%.2f'|format(stats.growth) }}</strong></li>
+</ul>
+
+<h5>Riwayat Trading</h5>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Tanggal</th><th>Equity</th><th>Lot</th><th>Open</th><th>SL</th><th>TP</th>
+      <th>Result</th><th>Note</th><th>Equity After</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for t in trades %}
+    <tr>
+      <td>{{ t.date }}</td>
+      <td>{{ t.equity }}</td>
+      <td>{{ t.lot }}</td>
+      <td>{{ t.open_price }}</td>
+      <td>{{ t.sl }}</td>
+      <td>{{ t.tp }}</td>
+      <td>{{ t.result }}</td>
+      <td>{{ t.note }}</td>
+      <td>{{ t.equity_after }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
